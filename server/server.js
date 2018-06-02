@@ -12,4 +12,4 @@ console.log(`server up on ${port}`);
 //use index.html page
 app.use(express.static(publicPath));
 
-app.listen(3000);
+app.listen(port);
