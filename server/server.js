@@ -23,10 +23,10 @@ io.on('connection', (socket) => {
 	//custom events for email
 	//emit = create new eveent
 
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {
 		console.log('Event works', message);
 		io.emit('newMessage', generateMessage(message.from, message.text));
-
+		callback('This is from the server');
 		//event fires to everyone except the socket
 		// socket.broadcast.emit('newMessage', {
 		// 	from: message.from,
