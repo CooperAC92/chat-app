@@ -27,14 +27,12 @@ io.on('connection', (socket) => {
 		console.log('Event works', message);
 		io.emit('newMessage', generateMessage(message.from, message.text));
 		callback('This is from the server');
-		//event fires to everyone except the socket
-		// socket.broadcast.emit('newMessage', {
-		// 	from: message.from,
-		// 	text: message.text,
-		// 	createdAt: new Date().getTime()
-		// })
 	});
 
+
+	socket.on('createLocationMessage', (coords) => {
+		io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
+	});
 
 	socket.on('disconnect', (socket) => {
 		console.log('User disconnected');
