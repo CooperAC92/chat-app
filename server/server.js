@@ -3,6 +3,7 @@ const socketIO = require('socket.io');
 const path = require('path');
 const http = require('http');
 
+const {generateMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
@@ -16,28 +17,15 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('NewUser Connected');
 
-	socket.emit('newMessage', {
-		from: 'Admin',
-		text: 'Welcome to the chat',
-		createdAt: new Date().getTime()
+	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
-	})
-
-	socket.broadcast.emit('newMessage', {
-		from: 'Admin',
-		text: 'new user joined the chat',
-		createdAt: new Date().getTime()
-	})
+	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User joined'));
 	//custom events for email
 	//emit = create new eveent
 
 	socket.on('createMessage', (message) => {
 		console.log('Event works', message);
-		io.emit('newMessage', {
-			from: message.from,
-			text: message.text,
-			createdAt: new Date().getTime()
-		});
+		io.emit('newMessage', generateMessage(message.from, message.text));
 
 		//event fires to everyone except the socket
 		// socket.broadcast.emit('newMessage', {
