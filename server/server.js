@@ -1,7 +1,7 @@
-const express = require('express');
-const socketIO = require('socket.io');
 const path = require('path');
 const http = require('http');
+const express = require('express');
+const socketIO = require('socket.io');
 
 const {generateMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
@@ -43,6 +43,6 @@ io.on('connection', (socket) => {
 
 
 
-server.listen(port);
-
-console.log(`Server up on ${port}`);
+server.listen(port, () => {
+	console.log(`Server up on ${port}`);
+});
