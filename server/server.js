@@ -16,10 +16,25 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('NewUser Connected');
 
+	//custom events for email
+	//emit = create new eveent
+	socket.emit('newMessage', {
+		from: 'adam@test.com',
+		text: 'this is a new message',
+		createdAt: 123
+	});
+
+	socket.on('createMessage', (message) => {
+		console.log('Event works', message);
+	});
+
+
 	socket.on('disconnect', (socket) => {
-	console.log('User disconnected');
+		console.log('User disconnected');
 	});
 });
+
+
 
 server.listen(port);
 
