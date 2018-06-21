@@ -18,14 +18,14 @@ io.on('connection', (socket) => {
 
 	//custom events for email
 	//emit = create new eveent
-	socket.emit('newMessage', {
-		from: 'adam@test.com',
-		text: 'this is a new message',
-		createdAt: 123
-	});
 
 	socket.on('createMessage', (message) => {
 		console.log('Event works', message);
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		});
 	});
 
 
