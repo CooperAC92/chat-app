@@ -16,6 +16,18 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('NewUser Connected');
 
+	socket.emit('newMessage', {
+		from: 'Admin',
+		text: 'Welcome to the chat',
+		createdAt: new Date().getTime()
+
+	})
+
+	socket.broadcast.emit('newMessage', {
+		from: 'Admin',
+		text: 'new user joined the chat',
+		createdAt: new Date().getTime()
+	})
 	//custom events for email
 	//emit = create new eveent
 
@@ -26,6 +38,13 @@ io.on('connection', (socket) => {
 			text: message.text,
 			createdAt: new Date().getTime()
 		});
+
+		//event fires to everyone except the socket
+		// socket.broadcast.emit('newMessage', {
+		// 	from: message.from,
+		// 	text: message.text,
+		// 	createdAt: new Date().getTime()
+		// })
 	});
 
 
